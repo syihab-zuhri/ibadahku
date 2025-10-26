@@ -5,7 +5,14 @@ if (!isset($_SESSION['id_user'])){
     header("location: login.php");
     exit();
 }
+require 'config.php';
 
+$id_log = $_GET['id'];
+
+$query = "SELECT * FROM log_ibadah WHERE id = '$id_log'";
+$result = mysqli_query($koneksi, $query);
+
+$log = mysqli_fetch_assoc($result);
 ?>
 
 <!doctype html>
@@ -43,36 +50,37 @@ if (!isset($_SESSION['id_user'])){
     <div class="container mt-4">
         <div class="card">
             <div class="card-header">
-                <h4>Form Laporan Ibadah Harian</h4>
+                <h4>Perbarui Laporan Ibadah Harian</h4>
             </div>
             <div class="card-body">
-                <form action="proses_input.php" method="POST">
+                <form action="proses-edit.php" method="POST">
+                    <input type="hidden" name="id_log" value="<?php echo $log['id']; ?>">
                     <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value = "<?php echo $log['tanggal']; ?>"required>
                     </div>
 
                     <p class="fw-bold">Sholat Fardhu</p>
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="subuh" name="sholat_subuh">
+                                <input class="form-check-input" type="checkbox" value="1" id="subuh" name="sholat_subuh" <?php if ($log['sholat_subuh'] == 1) echo 'checked'; ?>>
                                 <label class="form-check-label" for="subuh">Subuh</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="dzuhur" name="sholat_dzuhur">
+                                <input class="form-check-input" type="checkbox" value="1" id="dzuhur" name="sholat_dzuhur" <?php if ($log['sholat_dzuhur'] == 1) echo 'checked'; ?>>
                                 <label class="form-check-label" for="dzuhur">Dzuhur</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="ashar" name="sholat_ashar">
+                                <input class="form-check-input" type="checkbox" value="1" id="ashar" name="sholat_ashar" <?php if ($log['sholat_ashar'] == 1) echo 'checked'; ?>>
                                 <label class="form-check-label" for="ashar">Ashar</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="maghrib" name="sholat_maghrib">
+                                <input class="form-check-input" type="checkbox" value="1" id="maghrib" name="sholat_maghrib" <?php if ($log['sholat_maghrib'] == 1) echo 'checked'; ?>>
                                 <label class="form-check-label" for="maghrib">Maghrib</label>
                             </div>
                              <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="isya" name="sholat_isya">
+                                <input class="form-check-input" type="checkbox" value="1" id="isya" name="sholat_isya" <?php if ($log['sholat_isya'] == 1) echo 'checked'; ?>>
                                 <label class="form-check-label" for="isya">Isya</label>
                             </div>
                         </div>
@@ -82,15 +90,15 @@ if (!isset($_SESSION['id_user'])){
 
                     <div class="mb-3">
                         <label for="tilawah" class="form-label">Tilawah Al-Qur'an (Jumlah Halaman)</label>
-                        <input type="number" class="form-control" id="tilawah" name="tilawah_halaman" value="0" min="0">
+                        <input type="number" class="form-control" id="tilawah" name="tilawah_halaman" value=" <?php $log['tilawah_halaman']; ?>" min="0">
                     </div>
 
                     <div class="mb-3">
                         <label for="catatan" class="form-label">Catatan Tambahan (Opsional)</label>
-                        <textarea class="form-control" id="catatan" name="catatan" rows="3"></textarea>
+                        <textarea class="form-control" id="catatan" name="catatan" rows="3"> <?php echo $log['catatan']; ?></textarea>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Simpan Laporan</button>
+                    <button type="submit" class="btn btn-primary">perbarui laporan</button>
                     <a href="dashboard.php" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
