@@ -103,9 +103,10 @@ $hasil_log = mysqli_query($koneksi, $query);
                                     </td>
                                     <td>
                                         <a href="edit-ibadah.php?id=<?php echo $row['id']; ?>"
-                                        class="btn-sm btn-primary">Edit</a>
+                                        class="btn btn-sm btn-primary">Edit</a> 
+
                                         <a href="proses-hapus.php?id=<?php echo $row['id']; ?>"
-                                        class="btn-sm btn-danger">hapus</a>
+                                        class="btn btn-sm btn-danger">hapus</a>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
