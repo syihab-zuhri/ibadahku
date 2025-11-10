@@ -1,12 +1,11 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id_user'])){
-    header("location: login.php");
+if (!isset($_SESSION['id_user']) || $_SESSION['role'] !='siswa'){
+    header("location: ../login.php");
     exit();
 }
-
-require 'config.php';
+require '../config.php';
 
 $userId = $_SESSION['id_user'];
 
@@ -22,11 +21,12 @@ $hasil_log = mysqli_query($koneksi, $query);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard - Aplikasi Monitoring Ibadah</title>
-    
+  
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
 
+<body>
+    
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="#">Monitoring Ibadah</a>
@@ -42,7 +42,7 @@ $hasil_log = mysqli_query($koneksi, $query);
                         <a class="nav-link" href="input-ibadah.php">Input Ibadah</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="logout.php">Logout</a>
+                        <a class="nav-link text-warning" href="../logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -58,7 +58,16 @@ $hasil_log = mysqli_query($koneksi, $query);
                 </a>
             </div>
         </div>
-
+    <?php
+    //menampilkan notifikasi 
+    if (isset($_SESSION['pesan'])){
+            echo '<div class="alert alert-sucses alert-dismissible fade show" role="alert">';
+        echo $_SESSION['pesan'];
+            echo '<button type="button"class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>';
+        echo '</div>';
+        unset($_SESSION['pesan']);
+    }
+    ?>
         <div class="card">
             <div class="card-header">
                 <h5>Riwayat Ibadah</h5>
@@ -103,10 +112,10 @@ $hasil_log = mysqli_query($koneksi, $query);
                                     </td>
                                     <td>
                                         <a href="edit-ibadah.php?id=<?php echo $row['id']; ?>"
-                                        class="btn btn-sm btn-primary">Edit</a> 
+                                            class="btn btn-sm btn-primary">Edit</a> 
 
-                                        <a href="proses-hapus.php?id=<?php echo $row['id']; ?>"
-                                        class="btn btn-sm btn-danger">hapus</a>
+                                        <a href="../proses-hapus.php?id=<?php echo $row['id']; ?>"
+                                            class="btn btn-sm btn-danger">hapus</a>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>

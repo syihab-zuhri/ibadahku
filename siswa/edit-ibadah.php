@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id_user'])){
-    header("location: login.php");
+if (!isset($_SESSION['id_user']) || $_SESSION['role'] !='siswa'){
+    header("location: ../login.php");
     exit();
 }
-require 'config.php';
+require '../config.php';
 
 $id_log = $_GET['id'];
 
@@ -41,7 +41,7 @@ $log = mysqli_fetch_assoc($result);
                         <a class="nav-link active" href="input-ibadah.php">Input Ibadah</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="logout.php">Logout</a>
+                        <a class="nav-link text-warning" href="../logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -53,7 +53,7 @@ $log = mysqli_fetch_assoc($result);
                 <h4>Perbarui Laporan Ibadah Harian</h4>
             </div>
             <div class="card-body">
-                <form action="proses-edit.php" method="POST">
+                <form action="../proses-edit.php" method="POST">
                     <input type="hidden" name="id_log" value="<?php echo $log['id']; ?>">
                     <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal</label>
@@ -90,12 +90,12 @@ $log = mysqli_fetch_assoc($result);
 
                     <div class="mb-3">
                         <label for="tilawah" class="form-label">Tilawah Al-Qur'an (Jumlah Halaman)</label>
-                        <input type="number" class="form-control" id="tilawah" name="tilawah_halaman" value=" <?php $log['tilawah_halaman']; ?>" min="0">
+                        <input type="number" class="form-control" id="tilawah" name="tilawah_halaman" value="<?php echo $log['tilawah_halaman']; ?>" min="0">
                     </div>
 
                     <div class="mb-3">
                         <label for="catatan" class="form-label">Catatan Tambahan (Opsional)</label>
-                        <textarea class="form-control" id="catatan" name="catatan" rows="3"> <?php echo $log['catatan']; ?></textarea>
+                        <textarea class="form-control" id="catatan" name="catatan" rows="3"><?php echo $log['catatan']; ?></textarea>
                     </div>
                     
                     <button type="submit" class="btn btn-primary">perbarui laporan</button>

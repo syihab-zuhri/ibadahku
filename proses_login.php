@@ -19,8 +19,16 @@ if (mysqli_num_rows($result) > 0) {
         $_SESSION['nama'] = $user['nama_lengkap'];
         $_SESSION['role'] = $user['role'];
         
-        header("Location: dashboard.php");
-        // exit();
+
+        if ($_SESSION['role'] == 'guru'){
+            header("Location: guru/dashboard.php");
+            exit();
+        }else if($_SESSION['role'] == 'siswa'){
+            header("Location: siswa/dashboard.php");
+            exit();
+        }
+        // header("Location: siswa/dashboard.php");
+        // // exit();
     } else {
         header("Location: login.php?error=password"); 
         exit();

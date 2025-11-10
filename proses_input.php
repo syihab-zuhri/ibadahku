@@ -27,8 +27,8 @@ $query = "INSERT INTO log_ibadah
 $result = mysqli_query($koneksi, $query);
 
 if ($result) {
-  
-    header("Location: dashboard.php");
+    $_SESSION['pesan'] = "data ibadah berhasil disimpan";
+    header("Location: siswa/dashboard.php");
     exit();
 } else {
    

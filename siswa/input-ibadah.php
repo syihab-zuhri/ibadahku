@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id_user'])){
-    header("location: login.php");
+if (!isset($_SESSION['id_user']) || $_SESSION['role'] !='siswa'){
+    header("location: ../login.php");
     exit();
 }
 
@@ -34,7 +34,7 @@ if (!isset($_SESSION['id_user'])){
                         <a class="nav-link active" href="input-ibadah.php">Input Ibadah</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="logout.php">Logout</a>
+                        <a class="nav-link text-warning" href="../logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -46,7 +46,7 @@ if (!isset($_SESSION['id_user'])){
                 <h4>Form Laporan Ibadah Harian</h4>
             </div>
             <div class="card-body">
-                <form action="proses_input.php" method="POST">
+                <form action="../proses_input.php" method="POST">
                     <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal</label>
                         <input type="date" class="form-control" id="tanggal" name="tanggal" required>
