@@ -58,16 +58,19 @@ $hasil_log = mysqli_query($koneksi, $query);
                 </a>
             </div>
         </div>
-    <?php
-    //menampilkan notifikasi 
-    if (isset($_SESSION['pesan'])){
-            echo '<div class="alert alert-sucses alert-dismissible fade show" role="alert">';
-        echo $_SESSION['pesan'];
-            echo '<button type="button"class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>';
-        echo '</div>';
-        unset($_SESSION['pesan']);
-    }
-    ?>
+            <?php
+            // Cek apakah ada pesan notifikasi di session
+            if (isset($_SESSION['pesan'])) {
+                // Tampilkan pesan dalam bentuk alert Bootstrap
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
+                echo $_SESSION['pesan'];
+                echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                echo '</div>';
+                
+                // Hapus pesan dari session agar tidak muncul lagi
+                unset($_SESSION['pesan']);
+            }
+            ?>
         <div class="card">
             <div class="card-header">
                 <h5>Riwayat Ibadah</h5>
@@ -76,6 +79,7 @@ $hasil_log = mysqli_query($koneksi, $query);
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
                         <thead>
+                            <!-- th table header -->
                             <tr>
                                 <th>Tanggal</th>
                                 <th>Subuh</th>
@@ -85,12 +89,14 @@ $hasil_log = mysqli_query($koneksi, $query);
                                 <th>Isya</th>
                                 <th>Tilawah (Hal)</th>
                                 <th>Status</th>
+                                <th>catatan Guru</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             while ($row = mysqli_fetch_assoc($hasil_log)) : ?>
+                            <!-- tr = table row -->
                                 <tr>
                                     <td><?php echo date('d M Y', strtotime($row['tanggal'])); ?></td>
                                     <td><?php echo ($row['sholat_subuh'] == 1) ? '✔' : '❌'; ?></td>
@@ -110,6 +116,11 @@ $hasil_log = mysqli_query($koneksi, $query);
                                             <span class="badge bg-success">disetujui</span>    
                                         <?php endif; ?>
                                     </td>
+
+                                    <td>
+                                        <?php if(isset($row['catatan_guru'])): echo htmlspecialchars($row['catatan_guru']); endif; ?>
+                                    </td>
+
                                     <td>
                                         <a href="edit-ibadah.php?id=<?php echo $row['id']; ?>"
                                             class="btn btn-sm btn-primary">Edit</a> 
